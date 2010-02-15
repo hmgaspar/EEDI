@@ -12,8 +12,8 @@ class Mission:
 		_mission = []
 #		_mission.append(raw_input('Mission Name: '))
 		_mission.append('Statoil')
-#		_mission.append(raw_input('Number of Operational Profiles: '))
-		_mission.append('2')
+		_mission.append(raw_input('Number of Operational Profiles: '))
+#		_mission.append('2')
 		self.Name = _mission[0]
 		self.N_OP = _mission[1]
 		print ' '
@@ -36,15 +36,15 @@ class Mission:
 		print '   Select a type of Operational Profile:'
 		for j in range(len(_oper_pro_types)):
 			print '   ', j, ' - ', _oper_pro_types[j]
-#		_sel_type = _oper_pro_types[int(raw_input('    :'))]
-		_sel_type = _oper_pro_types[0]
+		_sel_type = _oper_pro_types[int(raw_input('    :'))]
+#		_sel_type = _oper_pro_types[0]
 		_ope_pro.append(_sel_type)
 		print _sel_type, ' - Percentage of Mission Time'
-#		_ope_pro.append(float(raw_input(' : '))/100)
-		_ope_pro.append(float(50)/100)
+		_ope_pro.append(float(raw_input(' : '))/100)
+#		_ope_pro.append(float(50)/100)
 		print ' - Number of Operational States'
-#		_ope_pro.append(raw_input(' : '))
-		_ope_pro.append(1)
+		_ope_pro.append(raw_input(' : '))
+#		_ope_pro.append(1)
 		_os = []
 		for i in range(int(_ope_pro[2])):
 			global n_os
@@ -56,19 +56,19 @@ class Mission:
 	def OperStates(self):
 		_op_sta = []
 		print 'Operational State - ', n_os
-		_oper_sta_types = ['Transit Laden', 'Transit Ballast', 'Stand By', 'Towing', 'A/H Operations', 'Charge/Discharge']
+		_oper_sta_types = ['Stand By', 'Towing (150ton force, 4knots)', 'Anchor Handling (100ton force)', 'Discharge', 'Loading', 'Sailing (100% DWT, 12knots)', 'Sailing(20% DWT, 12knots)', 'Waiting']
 		print '   Select a type of Operational State:'
 		for j in range(len(_oper_sta_types)):
 			print '   ', j, ' - ', _oper_sta_types[j]
-#		_sel_type = _oper_sta_types[int(raw_input('    :'))]
-		_sel_type = _oper_sta_types[0]
+		_sel_type = _oper_sta_types[int(raw_input('    :'))]
+#		_sel_type = _oper_sta_types[0]
 		_op_sta.append(_sel_type)
 		print _sel_type, ' - Percentage of Oper. Profile Time'
-#		_op_sta.append(float(raw_input(' : '))/100)
-		_op_sta.append(float(100)/100)
+		_op_sta.append(float(raw_input(' : '))/100)
+#		_op_sta.append(float(100)/100)
 		print ' - Fuel Consumption (ton/hour)'
-#		_op_sta.append(raw_input(' : '))
-		_op_sta.append(0.65)
+		_op_sta.append(raw_input(' : '))
+#		_op_sta.append(0.65)
 		return _op_sta
 	
 	def EEDI(self):
@@ -76,9 +76,9 @@ class Mission:
 		for i in range(int(self.N_OP)):
 			_os_value = [] 
 			for j in range(int(self.OP[i][2])):
-				_tmp = 	self.OP[i][3][j][1] * self.OP[i][3][j][2]		
+				_tmp = 	float(self.OP[i][3][j][1]) * float(self.OP[i][3][j][2])	
 				_os_value.append(_tmp)
-			_op_value.append(sum(_os_value)*self.OP[i][1])
+			_op_value.append(sum(_os_value)*float(self.OP[i][1])*3.114)
 			
 		return sum(_op_value)
 
@@ -105,7 +105,7 @@ for i in range(int(a.Mission.N_OP)):
 	explode.append(0.05)
 
 pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
-title('Operational Profiles', bbox={'facecolor':'0.8', 'pad':10})
+title('Mission "' + a.Mission.Name + '" - Operational Profiles', bbox={'facecolor':'0.8', 'pad':10})
 
 for i in range(int(a.Mission.N_OP)):
 	labels = []
@@ -117,7 +117,7 @@ for i in range(int(a.Mission.N_OP)):
 		explode.append(0.05)
 	figure(i+2, figsize=(6,6))
 	pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
-	title('Operational State '+ str(i), bbox={'facecolor':'0.8', 'pad':10})
+	title('States of "'+ a.Mission.OP[i][0]+'"', bbox={'facecolor':'0.8', 'pad':10})
 
 show()
 
